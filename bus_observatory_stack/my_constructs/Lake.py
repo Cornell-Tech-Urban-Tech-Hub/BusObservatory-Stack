@@ -28,21 +28,36 @@ class BusObservatoryLake(Construct):
                 f"{bucket.bucket_name}_CrawlerGlueRole", 
                 managed_policy_arn='arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole'
                 )
-            ]
+            ],
+            inline_policies={
+                'InlinePolicyS3andLF': iam_.PolicyDocument(
+                    statements=[
+                        iam_.PolicyStatement(
+                            actions=[
+                                's3:GetObject', 
+                                's3:PutObject',
+                                'lakeformation:GetDataAccess'
+                                ], 
+                            effect=iam_.Effect.ALLOW, 
+                            resources=['*']
+                            )
+                    ]
+                )
+            }
         )
 
         # glue role needs "*" read/write - otherwise crawler will not be able to create tables (and no error messages in crawler logs)
-        glue_role.add_to_policy(
-            iam_.PolicyStatement(
-                actions=[
-                    's3:GetObject', 
-                    's3:PutObject',
-                    'lakeformation:GetDataAccess'
-                    ], 
-                effect=iam_.Effect.ALLOW, 
-                resources=['*']
-                )
-            )
+#         glue_role.add_to_policy(
+#             iam_.PolicyStatement(
+#                 actions=[
+#                     's3:GetObject', 
+#                     's3:PutObject',
+#                     'lakeformation:GetDataAccess'
+#                     ], 
+#                 effect=iam_.Effect.ALLOW, 
+#                 resources=['*']
+#                 )
+#             )
         
 
         # Step 2. create a database named after the bucket name
