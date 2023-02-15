@@ -102,6 +102,8 @@ class BusObservatoryLake(Construct):
         )
 
         # FIXME: this doesnt deploy — appears blocked by AWS Organizations (AT has a ticket out as of 2023-02-10)
+        # FIXME: the original example was written for CDK v1, this is v2 -- need to update?
+        # https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_lakeformation/CfnPermissions.html
         location_permission = lakeformation.CfnPermissions(
             self, 
             f"{bucket.bucket_name}_DatalakeLocationPermission",
