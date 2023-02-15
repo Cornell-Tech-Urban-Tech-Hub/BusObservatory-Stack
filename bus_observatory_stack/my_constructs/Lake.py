@@ -130,9 +130,10 @@ class BusObservatoryLake(Construct):
                 ),
                 permissions=["DATA_LOCATION_ACCESS"],
             )
-
-        #make sure the location resource is created first
+        
+        #make sure the location resource and glue role is created first
         location_permission.node.add_dependency(location_resource)
+        location_permission.node.add_dependency(glue_role)
 
         # FIXME: verify tables are governed / compaction is active
         # check compaction status
