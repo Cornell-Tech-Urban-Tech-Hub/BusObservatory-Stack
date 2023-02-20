@@ -44,7 +44,7 @@ class BusObservatoryAPI(Construct):
         )
         my_handler.add_to_role_policy(ssm_permission)
 
-        #FIXME: specify the exact resources that the lambda needs to access
+        #specify the exact resources that the lambda needs to access
         athena_permission=iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=[
@@ -57,7 +57,7 @@ class BusObservatoryAPI(Construct):
         my_handler.add_to_role_policy(athena_permission)
 
 
-        #FIXME: specify the exact resources that the lambda needs to access
+        #specify the exact resources that the lambda needs to access
         glue_permission=iam.PolicyStatement(
             effect=iam.Effect.ALLOW,
             actions=[
@@ -67,15 +67,6 @@ class BusObservatoryAPI(Construct):
             resources=["*"]
         )
         my_handler.add_to_role_policy(glue_permission)
-
-        #FIXME: specify the exact resources that the lambda needs to access
-        lf_permission=iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            actions=[
-                "lakeformation:GetDataAccess"],
-            resources=["*"]
-        )
-        my_handler.add_to_role_policy(lf_permission)
 
 
         #FIXME: this is hardcoded, ideally this bucket should be separate from the main data lake and only contain the results of the queries, and have a lifecycle rule to delete after 1 day
@@ -89,6 +80,7 @@ class BusObservatoryAPI(Construct):
             ]
         )
         
+        #FIXME: athena results bucket
         # s3_permission=iam.PolicyStatement(
         #     effect=iam.Effect.ALLOW,
         #     actions=[

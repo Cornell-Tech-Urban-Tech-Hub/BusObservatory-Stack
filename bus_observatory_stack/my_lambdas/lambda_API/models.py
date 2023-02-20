@@ -1,3 +1,5 @@
+#FIXME: rewrite this as a class
+
 from enum import Enum
 import os
 import pythena
@@ -57,10 +59,14 @@ def query_job(feeds,dbname, system_id, route, start, end):
         AND
         ("{feeds[system_id]['timestamp_key']}" >= from_iso8601_timestamp('{start}') AND "{feeds[system_id]['timestamp_key']}" < from_iso8601_timestamp('{end}'))
         """  
-    print(query_String)
+    # print(query_String)
 
     # FIXME: do i need a new workgroup for the stack? hardcoded?
     dataframe, _ = athena_client.execute(query=query_String, workgroup="busobservatory")
+
+    #FIXME: cast into local timezone
+    dataframe = localize_timestamps(dataframe, feed['timestamp_key'])
+     
     # n.b. JSON serializer doesn't like NaNs
     return dataframe.fillna('').to_dict(orient='records')
 
@@ -98,6 +104,15 @@ def get_system_history(dbname, feed, system_id):
     dataframe, _ = athena_client.execute(
         query=query_String, 
         workgroup="busobservatory") # FIXME: do i need a new workgroup for the stack? hardcoded?
+    
+    #FIXME: cast into local timezone
+    dataframe = localize_timestamps(dataframe, feed['timestamp_key'])
+    
     # n.b. JSON serializer doesn't like NaNs
     history = dataframe.fillna('').to_dict(orient='records')
     return history
+
+#FIXME: write this
+def localize_timestamps(df, timestamp_key):
+    # return df.assign(**{timestamp_key: df[timestamp_key].dt.tz_localize('UTC').dt.tz_convert('America/New_York')})
+    return df

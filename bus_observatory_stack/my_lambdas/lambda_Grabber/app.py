@@ -68,6 +68,8 @@ class DataLake:
         timestamp = dt.datetime.now().replace(microsecond=0)
         filename=f"{self.system_id}_{timestamp}.parquet".replace(" ", "_").replace(":", "_")
 
+        #FIXME: replace with duckdb insert to delta lake
+        # https://stackoverflow.com/questions/69407302/how-to-write-to-delta-table-delta-format-in-python-without-using-pyspark
         positions_df.to_parquet(f"/tmp/{filename}", times="int96")
 
         # upload to S3
