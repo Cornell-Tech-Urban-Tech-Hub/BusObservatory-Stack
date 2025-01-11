@@ -26,12 +26,21 @@ class BusObservatoryStack(Stack):
         ###########################################################
         # S3 BUCKET
         ###########################################################
-        bucket_name=stack_config["bucket_name"]
-        bucket = s3.Bucket(
-            self, 
-            "BusObservatory_S3_Bucket",
-            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
-            bucket_name=bucket_name
+        bucket_name = stack_config["bucket_name"]
+        try:
+            # Try to use existing bucket
+            bucket = s3.Bucket.from_bucket_name(
+                self,
+                "BusObservatory_S3_Bucket",
+                bucket_name
+            )
+        except:
+            # Create new bucket if it doesn't exist
+            bucket = s3.Bucket(
+                self,
+                "BusObservatory_S3_Bucket",
+                block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+                bucket_name=bucket_name
             )
         
         ###########################################################
@@ -97,4 +106,3 @@ class BusObservatoryStack(Stack):
             region=self.region,
             bucket=bucket
             )
-    
