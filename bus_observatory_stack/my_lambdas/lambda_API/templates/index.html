@@ -97,7 +97,7 @@
     </div>
 
     <!-- guide -->
-    <div class="row  my-5">
+    <div class="row  my-5"</div>
       <div class="col-md-12" id="docs">
         <h2>Next Steps</h2>
         <hr>
@@ -109,7 +109,7 @@
 
         <p>Data can also be accessed directly via the API endpoint. The format is:</p>
 
-        <code>
+        <co</code>de>
           https://api.busobservatory.org/buses/bulk/{system_id}/{route}/{year}/{month}/{day}/{hour}
         </code>
 
@@ -209,8 +209,35 @@ get_buses(
 </div>
 </div>
 
+<h3>6. Download Data in Bulk</h3>
+<p>All data now available in the Bus Observatory can be downloaded in bulk from an S3 bucket <pre>busobservatory-lake</pre>. Current day data is stored in individual parquet files per minute, and historical data is stored in daily compacted files.</p>
+
+<!--[ Code Box 4 ]-->
+<div class='K2_CBox'>
+  <div class='CB_Heading'>
+    <button id='copy4' class='C_box_main' onclick="copyC('copy4','code4')">
+      <i class='CBox_icn'></i>
+    </button>
+  </div>
+
+  <div id='code4'>
+          <pre>
+            aws s3 ls s3://busobservatory-lake/feeds/ # list available feeds
+            aws s3 cp s3://busobservatory-lake/feeds/nyct_mta_bus_siri/ # list compacted and current day files for New York City Transit's SIRI feed.
+</pre>
+</div>
+</div>
+
+
+
+
       </div>
     </div> <!-- /row -->
+
+
+
+
+
 
     <!-- Misc -->
     <div class="row my-5"> 
