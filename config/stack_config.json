@@ -1,6 +1,6 @@
 {
 	"bucket_name": "busobservatory-lake",
-	"subdomain": "api",
+	"subdomain": "www",
 	"domain": "busobservatory.org",
 	"feeds": {
 		"tfnsw_bus": {
